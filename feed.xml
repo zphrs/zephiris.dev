@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title>Zephiris.dev</title><link href="https://zephiris.dev"/><link rel="self" href="https://zephiris.dev/rss.xml"/><updated>2026-04-28T15:43:43.319Z</updated><id>https://zephiris.dev</id><author><name>Zephiris Evergreen</name><email>z@zephiris.dev</email></author><subtitle>focused primarily on distributed systems, networking, and rust at the moment</subtitle><entry><title>Swift's Guard Syntax in Rust</title><link href="https://zephiris.dev/posts/2026-04-28-swift-guard-in-rust"/><updated>2026-04-28T12:00:00.000Z</updated><id>https://zephiris.dev/posts/2026-04-28-swift-guard-in-rust</id><content type="html">
+&lt;h1&gt;Swift's Guard Syntax in Rust&lt;/h1&gt;
+&lt;pre&gt;&lt;code class="language-rust"&gt;macro_rules! guard {
+    (@parse ($($cond:tt)*) else $block:block) =&gt; {
+        let true = ($($cond)*) else $block;
+    };
+    (@parse ($($cond:tt)*) $next:tt $($rest:tt)*) =&gt; {
+        guard!(@parse ($($cond)* $next) $($rest)*);
+    };
+    ($($tt:tt)+) =&gt; {
+        guard!(@parse () $($tt)+);
+    };
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;For example, this in Swift:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-swift"&gt;guard data == 0 else {
+    print("data is not 0 :(")
+    return
+}
+print("data is 0")
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;can be written like this in Rust by using the above macro:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-rust"&gt;guard!(data == 0 else {
+    println!("data is not 0 :(");
+    return
+});
+println!("data is 0");
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Today &lt;a href="https://eleanorkolson.com"&gt;my girlfriend&lt;/a&gt; told me about Swift's &lt;code&gt;guard&lt;/code&gt; syntax. Here's an example snippet:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-swift"&gt;guard data == 0 else {
+    print("data is not 0 :(")
+    return
+}
+print("data is 0")
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;For those unfamiliar, it's semantically similar to an &lt;code&gt;if !condition {...}&lt;/code&gt; but the compiler ensures that the block diverges (returns, breaks, throws an exception, etc). For example, deleting the &lt;code&gt;return&lt;/code&gt; within the &lt;code&gt;else&lt;/code&gt; block in the above snippet would make the Swift compiler would raise a compiler error.&lt;/p&gt;
+&lt;p&gt;A guard assures the reader that a condition is guaranteed to be met once past the guard statement while still allowing for arbitrary handling within the &lt;code&gt;else&lt;/code&gt; block in the case the condition is not met, as long as that handling eventually diverges. So, swift guard blocks are essentially an assert with customizable logic for what to do if/when the assert fails.&lt;/p&gt;
+&lt;h2&gt;Rust's Semi-Equivalent &lt;code&gt;let-else&lt;/code&gt;&lt;/h2&gt;
+&lt;p&gt;Rust has a similar construct, the &lt;a href="https://doc.rust-lang.org/rust-by-example/flow_control/let_else.html"&gt;&lt;code&gt;let-else&lt;/code&gt; statement&lt;/a&gt;. This is often used for destructuring a tagged enum type such as a &lt;code&gt;Result&lt;/code&gt; or an &lt;code&gt;Option&lt;/code&gt; for later use while still having custom logic in case the value wasn't the desired enum variant. For example:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-rust"&gt;let Some(value) = maybe_got_value() else {
+    println!("didn't get a value :(");
+    return Err("didn't get value");
+}
+
+println!("got the value! {}", value);
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;While Swift's &lt;code&gt;guard&lt;/code&gt; is frequently used to perform boolean assertions, &lt;code&gt;let-else&lt;/code&gt; is practically never used for boolean assertions. This got me wondering whether I could even use &lt;code&gt;let-else&lt;/code&gt; for an assertion, which led to the cursed syntax below:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-rust"&gt;let 0 = data else {
+    println!("data is not 0 :(");
+    return
+};
+println!("data is 0");
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Believe it or not, this code compiles, even though it looks like I'm setting &lt;code&gt;0&lt;/code&gt; to equal &lt;code&gt;data&lt;/code&gt;. But seen another way, it's assigning &lt;code&gt;0&lt;/code&gt; to equal &lt;code&gt;data&lt;/code&gt; only if &lt;code&gt;data&lt;/code&gt; already equals &lt;code&gt;0&lt;/code&gt; (which would obviously be a no-op).&lt;/p&gt;
+&lt;p&gt;What the above code is doing is even clearer when we desugar the &lt;code&gt;let-else&lt;/code&gt; syntax to the more intuitive &lt;code&gt;match&lt;/code&gt; syntax:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-rust"&gt;fn main() {
+  match data {
+    0 =&gt; {
+      println!("data is 0");
+    }
+    _ =&gt; {
+      println!("data is not 0 :(")
+  }
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;While the initial &lt;code&gt;let 0 = data&lt;/code&gt; syntax successfully replicated the first Swift example, it does not allow for arbitrary boolean expressions. To accomplish this, we must slightly augment the above technique:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-rust"&gt;let true = data == 0 else {
+    println!("data is not 0 :(");
+    return
+};
+println!("data is 0");
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now &lt;code&gt;data == 0&lt;/code&gt; can be substituted with any boolean expression, making the &lt;code&gt;let-else&lt;/code&gt; syntax truly equivalent to swift's boolean &lt;code&gt;guard&lt;/code&gt; syntax.&lt;/p&gt;
+&lt;h2&gt;Improving the Syntax with a Macro&lt;/h2&gt;
+&lt;p&gt;I don't particularly like the clunky &lt;code&gt;let true = condition&lt;/code&gt; syntax, so I wrote out my ideal syntax using a rust macro:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-rust"&gt;guard!(data == 0 else {
+    println!("data is not 0 :(");
+    return
+});
+println!("data is 0");
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Then I asked an LLM to come up with the macro definition that would convert the above syntax into the &lt;code&gt;let true = condition&lt;/code&gt; syntax. It came up with this:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-rust"&gt;macro_rules! guard {
+    (@parse ($($cond:tt)*) else $block:block) =&gt; {
+        let true = ($($cond)*) else $block;
+    };
+    (@parse ($($cond:tt)*) $next:tt $($rest:tt)*) =&gt; {
+        guard!(@parse ($($cond)* $next) $($rest)*);
+    };
+    ($($tt:tt)+) =&gt; {
+        guard!(@parse () $($tt)+);
+    };
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;If you're curious about how the above macro works, I highly recommend reading through &lt;a href="https://danielkeep.github.io/tlborm/"&gt;"The Little Book of Rust Macros"&lt;/a&gt;, specifically &lt;a href="https://danielkeep.github.io/tlborm/book/pat-incremental-tt-munchers.html"&gt;the section on "incremental TT munchers"&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Now that I have a syntax which pleases me, I look forward to using it in my own crates.&lt;/p&gt;
+&lt;h2&gt;Prior Work&lt;/h2&gt;
+&lt;p&gt;I'm not the first person to draw the connection between Swift's &lt;code&gt;guard&lt;/code&gt; and Rust's &lt;code&gt;let true = ...&lt;/code&gt;, that credit goes to &lt;a href="https://internals.rust-lang.org/t/swift-like-guard-statement/21646/2"&gt;m-ronchi on the Rust Internals forum&lt;/a&gt;. I'm also not the first to consider encapsulating such syntax into a macro. Further credit goes to &lt;a href="https://internals.rust-lang.org/t/swift-like-guard-statement/21646/7"&gt;richr who defined a guard_else macro farther down the forum chain&lt;/a&gt; that is used like so:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-rust"&gt;for i in 1..=100 {
+    guard_else!(i &amp;#x3C; 10, {
+        // Arbitrary logic here...
+        println!("DONE");
+        break; // Compiler complains if this is missing (which is good!)
+    });
+    // ...
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;While I do concede that &lt;a href="https://internals.rust-lang.org/t/swift-like-guard-statement/21646/7"&gt;richr's macro definition code&lt;/a&gt; is significantly easier to read, I think added complexity in the definition is worth clearer syntax when using the macro.&lt;/p&gt;
+&lt;h2&gt;Please Feel free to copy and paste my macro!&lt;/h2&gt;
+&lt;p&gt;For a second I considered publishing the above &lt;code&gt;guard!&lt;/code&gt; macro to crates.io, but I didn't think it was worth going through all the work of publishing a crate just for 10 lines of LLM-generated code. So, if you want to use it, please feel free to copy and paste it into your own rust crates. Formally, I license the snippet under &lt;a href="https://creativecommons.org/publicdomain/zero/1.0/"&gt;CC0-1.0&lt;/a&gt;, although honestly I think it's already in the public domain, at least in the US, because it was fully generated by an LLM.&lt;/p&gt;
+&lt;p&gt;For my own projects I'll probably just paste the macro into my crates whenever I need it, and anyone else is more than welcome to do the same. If anyone reading this would like to go through the effort of publishing this to crates.io, you're more than welcome to do so, just be sure to keep the license CC0-1.0 when doing so.&lt;/p&gt;
+&lt;h2&gt;Will I actually use the macro?&lt;/h2&gt;
+&lt;p&gt;Maybe, but honestly I doubt it. I rarely write code where later code depends on a value being a specific value because a lot of my Rust code encodes different options for parameters into tagged enums where the &lt;code&gt;let ExampleEnum::Case = instance else {...}&lt;/code&gt; syntax works fine for me. Regardless, it was a fun exercise in rust macros, unearthing cursed rust syntax, and a good inspiration for me to finally setup my developer blog.&lt;/p&gt;
+</content><summary>Recreating Swift's guard pattern in rust</summary></entry></feed>
