@@ -1,0 +1,16 @@
+@media (prefers-color-scheme: dark) {
+    .shiki,
+    .shiki span {
+        color: var(--shiki-dark) !important;
+        background-color: var(--shiki-dark-bg) !important;
+    }
+}
+
+.shiki {
+    font-size: 14px;
+    border-radius: 0.5rem;
+    margin: 1rem;
+    padding: 0.25rem;
+    min-height: max-content;
+    overflow: auto;
+}

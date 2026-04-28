@@ -5,7 +5,21 @@ body {
 h1 {
     font-weight: 700;
 }
+p {
+    margin-bottom: 1rem;
+    margin-top: 0.5rem;
+}
+
+details {
+    padding-left: 0.5rem;
+    border-left: 2px solid currentColor;
+}
+
+code {
+    font-family: "Fira Code Variable", monospace;
+}
 
 :root {
     color-scheme: light dark;
+    font-size: 16px;
 }

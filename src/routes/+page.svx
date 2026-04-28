@@ -1,0 +1,10 @@
+Welcome to my developer blog, where I mainly post articles about my work on various programming projects and occasionally post short notes. You can also visit my personal site, [zephiris.me](https://zephiris.me), to learn more about me.
+
+This site is more a developer blog than a personal site, hence the stripped down theme (I leave most of the styling up to your browser). The source is available on [GitHub](https://github.com/zphrs/zephiris.dev.git) and is hosted through GitHub pages. Most of the site is written in Markdown, although I will occasionally write tiny applets in Svelte if it helps to illustrate a point.
+
+```rust
+fn main() {
+
+}
+
+```

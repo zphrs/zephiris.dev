@@ -1,0 +1,174 @@
+---
+date: 2026-04-28
+title: "Swift's Guard Syntax in Rust"
+description: "Recreating Swift's guard pattern in rust"
+keywords: swift, rust, macro, syntax-sugar
+---
+
+# Swift's Guard syntax in Rust
+
+<details>
+<summary>TLDR</summary>
+The following Rust macro lets you write Swift-style guard statements in Rust:
+
+```rust
+macro_rules! guard {
+    (@parse ($($cond:tt)*) else $block:block) => {
+        let true = ($($cond)*) else $block;
+    };
+    (@parse ($($cond:tt)*) $next:tt $($rest:tt)*) => {
+        guard!(@parse ($($cond)* $next) $($rest)*);
+    };
+    ($($tt:tt)+) => {
+        guard!(@parse () $($tt)+);
+    };
+}
+```
+
+For example, this in Swift:
+
+```swift
+guard data == 0 else {
+    print("data is not 0 :(")
+    return
+}
+print("data is 0")
+```
+
+can be written like this in Rust with the macro:
+
+
+```rust
+guard!(data == 0 else {
+    println!("data is not 0 :(");
+    return
+});
+println!("data is 0");
+```
+</details>
+
+
+Today [my girlfriend](https://eleanorkolson.com) told me about Swift's `guard` syntax. Here's an example snippet:
+
+```swift
+guard data == 0 else {
+    print("data is not 0 :(")
+    return
+}
+print("data is 0")
+```
+
+For those unfamiliar, it's semantically similar to an `if !condition {...}` but the compiler ensures that the block diverges (returns, breaks, throws an exception, etc). So, without that `return` within the `else` block, the Swift compiler would raise a compiler error. 
+
+A guard assures the reader that a condition is guaranteed to be met once past the guard statement while still allowing for arbitrary handling within the `else` block in the case the condition is not met, as long as that handling eventually diverges. So, swift guard blocks are essentially an assert with customizable logic for what to do if/when the assert fails.
+
+## Rust's Semi-Equivalent `let-else`
+
+Rust has a similar construct, the [`let-else` statement](https://doc.rust-lang.org/rust-by-example/flow_control/let_else.html). This is often used for destructuring a tagged enum type such as a `Result` or an `Option` for later use while still having custom logic in case the value wasn't the desired enum variant. For example:
+
+```rust
+let Some(value) = maybe_got_value() else {
+    println!("didn't get a value :(");
+    return Err("didn't get value");
+}
+
+println!("got the value! {}", value);
+
+```
+
+While Swift's `guard` is frequently used to perform boolean assertions, `let-else` is practically never used for boolean assertions.
+
+This got me wondering whether I could even use `let-else` for an assertion, which led to the cursed syntax below:
+
+```rust
+let 0 = data else {
+    println!("data is not 0 :(");
+    return
+};
+println!("data is 0");
+```
+
+Believe it or not, this code compiles, even though it looks like I'm setting `0` to equal `data`. However, put another way, it's assigning `0` to equal `data` only if `data` already equals 0. 
+
+Furthermore, seasoned rust veterans might not have been so surprised that it compiles because they would mentally desugared the assignment to 0 into a `match` statement on `data`.  Desugaring the `let-else` syntax to the more intuitive `match` syntax results in:
+
+```rust
+fn main() {
+  match data {
+    0 => {
+      println!("data is 0");
+    }
+    _ => {
+      println!("data is not 0 :(")
+  }
+}
+
+```
+
+While the above rust code successfully replicated the first Swift example, it does not allow me to assert arbitrary boolean expressions. To accomplish this, we must slightly augment the above technique:
+
+```rust
+let true = 0 == data else {
+    println!("data is not 0 :(");
+    return
+};
+println!("data is 0");
+```
+
+Now `0 == data` can be substituted with any boolean expression, making the `let-else` syntax truly equivalent to swift's boolean `guard` syntax.
+
+## Improving the Syntax with a Macro
+
+I don't particularly like the clunky `let true = condition` syntax, so I wrote out the syntax I wanted using a rust macro:
+
+
+```rust
+guard!(0 == data else {
+    println!("data is not 0 :(");
+    return
+});
+println!("data is 0");
+```
+
+Then I asked an LLM to come up with the macro definition that would convert the above syntax into the `let true = condition` syntax. It came up with this:
+
+```rust
+macro_rules! guard {
+    (@parse ($($cond:tt)*) else $block:block) => {
+        let true = ($($cond)*) else $block;
+    };
+    (@parse ($($cond:tt)*) $next:tt $($rest:tt)*) => {
+        guard!(@parse ($($cond)* $next) $($rest)*);
+    };
+    ($($tt:tt)+) => {
+        guard!(@parse () $($tt)+);
+    };
+}
+```
+
+If you're curious what the above sorcery does, I highly recommend reading through ["The Little Book of Rust Macros"](https://danielkeep.github.io/tlborm/), specifically [the section on "incremental TT munchers"](https://danielkeep.github.io/tlborm/book/pat-incremental-tt-munchers.html).
+
+Now with the above macro, I now would feel comfortable using guard in my Rust code because readers of my code would have a fighting chance at understanding the purpose of the guard! statement, in contrast to the clunky `if true = condition` vanilla syntax.
+
+## Prior Work
+
+I'm not the first person to draw the connection between Swift's `guard` and Rust's `let true = ...`, that credit goes to [m-ronchi on the Rust Internals forum](https://internals.rust-lang.org/t/swift-like-guard-statement/21646/2). I'm also not the first to consider encapsulating such syntax into a macro. Further credit goes to [richr for writing a guard_else macro](https://internals.rust-lang.org/t/swift-like-guard-statement/21646/7) that is used like so:
+
+```rust
+for i in 1..=100 {
+    guard_else!(i < 10, {
+        // Arbitrary logic here...
+        println!("DONE");
+        break; // Compiler complains if this is missing (which is good!)
+    });
+    // ...
+}
+```
+
+richr's syntax uses a comma as the delimiter instead of an `else` which just feels slightly too Rust-y for my tastes when the whole point was to get Rust to feel more like Swift, even though I do concede that richr's macro definition is significantly easier to read. So I think I'm going to stick with my `guard!(condition else {})` syntax for my purposes, although richr's might be a better choice for anyone who's worried about adding complicated macros into their codebase and who doesn't mind using the less intuitive comma delimiter.
+
+## Please Feel free to copy and paste the macro!
+
+For a second I considered publishing the above `guard!` macro to crates.io, but I didn't think it was worth going through all the work of publishing a crate just for 10 lines of LLM-generated code. So, if you want to use it, please feel free to copy and paste it into your own rust crates. Formally, I license the snippet under [CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/), although honestly I think it's already in the public domain, at least in the US, because it was fully generated by an LLM.
+
+For my own projects I'll probably just paste the macro into my crates whenever I need it, and anyone else is more than welcome to do the same. Furthermore, if anyone reading this would like to go through the effort of publishing this to crates.io, you're more than welcome to do so, just be sure to keep the license CC0-1.0 when doing so.
