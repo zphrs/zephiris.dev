@@ -9,8 +9,16 @@
 .shiki {
     font-size: 14px;
     border-radius: 0.5rem;
-    margin: 1rem;
-    padding: 0.25rem;
+    padding: 0.25rem 0.5rem;
     min-height: max-content;
     overflow: auto;
+    border: 1px solid rgba(127, 127, 127, 0.5);
+}
+
+p > code,
+p > a > code {
+    background-color: rgba(0, 0, 0, 0.15);
+    font-size: 14px;
+    border: 1px solid rgba(127, 127, 127, 0.5);
+    border-radius: 0.25rem;
 }

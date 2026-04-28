@@ -1,0 +1,35 @@
+# About
+
+This is my developer blog specifically targeted towards a technical audience. If you want to get to know the human behind the code monkey then you can visit my personal site, [zephiris.me](https://zephiris.me), to learn more about me, the other non-programming stuff that I get up to, and peruse my ongoing and finished projects in a more widely accessible manner.
+
+## Hosting/Privacy
+
+
+ The site itself does not contain any mechanisms to collect data on visitors. The site only gets static files from GitHub Pages servers and does not contact any other servers. If you don't believe me feel free to inspect the page yourself via your browser's network console.
+
+That said, this site is currently hosted on GitHub Pages. This means that some Microsoft server knows you visited this page. At most Microsoft could track which IPs visit this site, and when. Microsoft does not publish what information they keep about visitors to GitHub Pages sites and for how long they keep it.
+
+At some point I'll migrate away from GitHub, probably over the summer. Until then, if you're worried about Microsoft knowing that your IP visited this site, use a VPN or Tor to anonymize your IP address.
+
+No matter where I host this site, your DNS lookups can give away that you're visiting this site to your ISP. If you don't want your ISP knowing that you visited this domain, you should also use an encrypted DNS from a provider you trust to keep which domains you've visited a secret. If you're looking for a recommendation, I personally use [Mullvad's free encrypted DNS](https://mullvad.net/en/help/dns-over-https-and-dns-over-tls).
+
+## Theme
+
+
+This site is more of a developer blog than a personal site, hence the stripped down theme (I leave most of the styling up to your browser).
+
+I spent no more than 15 minutes styling the site, with minimal changes to your browser's default rendering style for a site. Namely I added `    <meta name="color-scheme" content="light dark" />` to the head to ensure that your browser uses its built in dark mode when your device is set to dark mode, changed the font from serif to my favorite sans-serif font, Atkinson Hyperlegible, added syntax highlighting to the code blocks, and stylized \<code\> snippets. This site might look different on different browsers. That's somewhat intended.
+
+The two fonts used are [Atkinson Hyperlegible Next](https://github.com/googlefonts/atkinson-hyperlegible-next) and [Fira Code](https://github.com/tonsky/FiraCode). Both are bundled into the static build of the site to ensure that this site
+exclusively pings the Github Pages site.
+
+The one bit of custom styling is the syntax highlighting for code snippets. The code snippets are colored using [Shiki](https://shiki.style/) along with my TextMate color theme called [Forest Cottage](https://github.com/zphrs/forest-cottage-theme) (I initially wrote and published Forest Cottage for a [VS Code color theme](https://marketplace.visualstudio.com/items?itemName=zephyrj.forest-cottage) more than 4 years ago in 2022). Forest Cottage also available in [Zed](https://zed.dev/)'s extension marketplace under the same name (extension id of forest-cottage-theme).
+
+Most of the site is written in commonmark Markdown, although I will occasionally write tiny applets in Svelte if it helps illustrate a point. When there's an interactive element I'll do my best to provide some indication to those who exclusively read through RSS to open the full site. The rest of the time the only thing RSS readers are missing out on is pretty syntax highlighting for the code blocks.
+
+
+## Source Code and Licensing
+
+The source is available on [GitHub](https://github.com/zphrs/zephiris.dev.git) and the site itself is statically hosted through GitHub pages. While the source is available, there is no license and thus I retain copyright over all content on this site. If you want to use something I wrote in this repo for a purpose which is not otherwise protected under fair use, please reach out for permission! 
+
+Sometimes I'll specify a license for specific code snippets on the site. In that case you're welcome to use such snippets under the license I've specified.

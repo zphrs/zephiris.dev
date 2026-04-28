@@ -1,5 +1,5 @@
 body {
-    font-family: "Atkinson Hyperlegible Next Variable", sans-serif;
+    font-family: "Atkinson Hyperlegible Next Variable", system-ui, sans-serif;
 }
 
 h1 {
@@ -20,6 +20,5 @@ code {
 }
 
 :root {
-    color-scheme: light dark;
     font-size: 16px;
 }

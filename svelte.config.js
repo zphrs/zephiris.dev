@@ -1,5 +1,5 @@
 import { mdsvex } from "mdsvex";
-import adapter from "@sveltejs/adapter-auto";
+import adapter from "@sveltejs/adapter-static";
 // import { createHighlighter } from "@bitmachina/highlighter";
 import { createHighlighter } from "shiki";
 import forestCottageClassyDark from "./static/themes/forest-cottage-classy-dark.js";

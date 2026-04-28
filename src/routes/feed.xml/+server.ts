@@ -5,6 +5,7 @@ import {
   BLOG_TITLE,
   BLOG_URL,
 } from "$lib/blogMetadata";
+import { getAllPosts } from "$lib/allPosts";
 import { create } from "xmlbuilder2";
 
 import rehypeFormat from "rehype-format";
@@ -18,6 +19,7 @@ import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
 import { unified } from "unified";
 import { read } from "$app/server";
+export const prerender = true;
 
 const processor = unified()
   .use(remarkParse)
@@ -30,45 +32,11 @@ const processor = unified()
   .use(rehypeSanitize)
   .use(rehypeStringify);
 
-export type BlogPostMetadata = {
-  title: string;
-  description: string;
-  date: string;
-  image?: string;
-  caption?: string;
-  keywords?: string;
-};
-
-export type PostLink = {
-  metadata: BlogPostMetadata;
-  postPath: string;
-};
-
-async function getAllPosts(): Promise<PostLink[]> {
-  const pathPrefix = "../posts/";
-  const allPostFiles = import.meta.glob("../posts/*.svx");
-  const iterablePostFiles = Object.entries(allPostFiles);
-  const postJobs = iterablePostFiles.map(async ([path, resolver]) => {
-    const { metadata } = (await resolver()) as { metadata: BlogPostMetadata };
-    const postPath = path.replace(pathPrefix, "").replace(".svx", "");
-    return { metadata, postPath };
-  });
-  const posts = await Promise.all(postJobs);
-  posts.sort((a, b) => {
-    const dateA = new Date(a.metadata.date);
-    const dateB = new Date(b.metadata.date);
-    return dateB.getTime() - dateA.getTime();
-  });
-  return posts;
-}
-
 async function getHtmlForPost(postPath: string): Promise<string> {
-  const value = import.meta.resolve(`../posts/${postPath}.svx?raw`);
   /* @vite-ignore */
-  let text = await import(`../posts/${postPath}.svx?raw`).then(
+  let text = await import(`../posts/${postPath}/+page.svx?raw`).then(
     (m) => m.default,
   );
-  console.log("AAA", text);
   const file = await processor.process(text);
   return file.value as string;
 }

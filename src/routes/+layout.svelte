@@ -14,29 +14,74 @@
 
 <svelte:head>
     <link rel="icon" href={favicon} />
+    <meta name="color-scheme" content="light dark" />
+    <link
+        rel="alternate"
+        type="application/rss+xml"
+        href="/feed.xml"
+        title="Blog Posts"
+    />
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
 </svelte:head>
 
 <header>
-    <h1>Zephiris.dev</h1>
+    <a href="/">zephiris.dev</a>
+    <a href="/about">/about</a>
+    <a href="/posts">/posts</a>
 </header>
 
 <main>
     {@render children()}
 </main>
 
-<hr />
 <footer>
-    <ul>
-        <li><a href="https://zephiris.me">Personal site: zephiris.me</a></li>
-        <li><a href="https://github.com/zphrs">GitHub (zphrs)</a></li>
-    </ul>
+    <fieldset>
+        <legend>Other Places I Post</legend>
+        <ul>
+            <li>
+                <a href="https://zephiris.me">Personal site: zephiris.me</a>
+            </li>
+            <li><a href="https://github.com/zphrs">GitHub (zphrs)</a></li>
+            <li>
+                <a href="https://tech.lgbt/@zphrs">Mastodon (zphrs@tech.lgbt)</a
+                >
+            </li>
+        </ul>
+    </fieldset>
 </footer>
 
 <style>
+    footer {
+        background-color: rgba(0, 0, 0, 0.2);
+        padding: 1rem;
+        color: rgb(127, 127, 127);
+    }
     main {
         min-height: 100dvh;
         max-width: 800px;
         margin: auto;
-        padding: 0.5rem;
+        padding: 1rem;
+        padding-top: 0rem;
+    }
+    header {
+        text-align: left;
+        background-color: rgba(0, 0, 0, 0.2);
+    }
+    fieldset {
+        border-radius: 0.5rem;
+        border-width: 1px;
+        border-color: currentColor;
+        border-style: solid;
+        outline: none;
+    }
+    header > a {
+        padding: 0 1rem;
+    }
+    ul {
+        color: gray;
     }
 </style>

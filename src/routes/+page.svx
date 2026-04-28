@@ -1,10 +1,25 @@
-Welcome to my developer blog, where I mainly post articles about my work on various programming projects and occasionally post short notes. You can also visit my personal site, [zephiris.me](https://zephiris.me), to learn more about me.
+# Zephiris.dev
 
-This site is more a developer blog than a personal site, hence the stripped down theme (I leave most of the styling up to your browser). The source is available on [GitHub](https://github.com/zphrs/zephiris.dev.git) and is hosted through GitHub pages. Most of the site is written in Markdown, although I will occasionally write tiny applets in Svelte if it helps to illustrate a point.
+<script>
+    import Posts from "$lib/Posts.svelte";
+</script>
+
 
 ```rust
-fn main() {
-
-}
-
+let welcome_msg = "\\u{0057}\\u{0065}\\u{006c}\\u{0063}\\u{006f}\\u{006d}\\u{0065}\\u{0020}\\u{0074}\\u{006f}\\u{0020}\\u{006d}\\u{0079}\\u{0020}\\u{0064}\\u{0065}\\u{0076}\\u{0065}\\u{006c}\\u{006f}\\u{0070}\\u{0065}\\u{0072}\\u{0020}\\u{0062}\\u{006c}\\u{006f}\\u{0067}\\u{0021}\\u{000a}";
+println!("{welcome_msg}");
 ```
+
+For those of you who don't speak unicode escape sequences: Welcome to my developer blog!
+
+Here I'll post about various personal programming projects, open-source libraries I'm contributing to and using, and some other miscellaneous developer musings.
+
+There's an RSS (Atom) feed at [/feed.xml](/feed.xml) which will be updated automatically whenever I post.
+
+To learn more about the inner workings of this blog, visit [/about](/about).
+
+Without further ado, here are my blog posts (also accessable at [/posts](/posts)):
+
+<h2>Posts</h2>
+
+<Posts></Posts>
