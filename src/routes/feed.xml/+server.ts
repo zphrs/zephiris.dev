@@ -17,6 +17,7 @@ import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
+import rehypeRaw from "rehype-raw";
 import { unified } from "unified";
 import { read } from "$app/server";
 export const prerender = true;
@@ -29,6 +30,7 @@ const processor = unified()
   .use(remarkMath)
   .use(remarkRehype, { allowDangerousHtml: true })
   .use(rehypeFormat)
+  .use(rehypeRaw)
   .use(rehypeSanitize)
   .use(rehypeStringify);
 
