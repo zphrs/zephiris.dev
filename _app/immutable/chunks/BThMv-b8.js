@@ -1,0 +1,1 @@
+var e=`Zephiris Evergreen`,t=`developer blog about distributed systems, networking, web development, and rust`,n=`Zephiris.dev`;export{t as n,n as r,e as t};
