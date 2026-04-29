@@ -44,14 +44,15 @@ async function getHtmlForPost(postPath: string): Promise<string> {
 // prettier-ignore
 async function getRssXml(): Promise<string> {
   const allPosts = await getAllPosts();
-  const rssUrl = `${BLOG_URL}/rss.xml`;
+  const rssUrl = `${BLOG_URL}feed.xml`;
   const root = create({ version: '1.0', encoding: 'utf-8' })
-  .ele('feed', {
-    xmlns: 'http://www.w3.org/2005/Atom',
+  .ele('rss', {
+    "xmlns:atom": 'http://www.w3.org/2005/Atom',
+    version: "2.0"
   })
+    .ele('atom:link', { rel: 'self', href: rssUrl, type: "application/rss+xml" }).up()
     .ele('title').txt(BLOG_TITLE).up()
     .ele('link', { href: BLOG_URL }).up()
-    .ele('link', { rel: 'self', href: rssUrl }).up()
     .ele('updated').txt(new Date().toISOString()).up()
     .ele('id').txt(BLOG_URL).up()
     .ele('author')
