@@ -1,1 +1,0 @@
-import{O as e,g as t,k as n,v as r}from"../chunks/XUF2VNtj.js";import"../chunks/Cfug8aQt.js";import{t as i}from"../chunks/ChI2BHlS.js";var a=r(`<h1>Posts</h1> <!>`,1);function o(r){var o=a();i(n(e(o),2),{}),t(r,o)}export{o as component};
