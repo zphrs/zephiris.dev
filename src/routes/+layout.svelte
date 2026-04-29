@@ -6,8 +6,12 @@
 
     // Supports weights 200-800
     import "@fontsource-variable/atkinson-hyperlegible-next/wght.css";
+
+    import atkinsonHyperlegible from "@fontsource-variable/atkinson-hyperlegible-next/files/atkinson-hyperlegible-next-latin-wght-normal.woff2?url";
     // Supports weights 300-700
     import "@fontsource-variable/fira-code/wght.css";
+
+    import firaCode from "@fontsource-variable/fira-code/files/fira-code-latin-wght-normal.woff2?url";
 
     let { children } = $props();
 </script>
@@ -15,6 +19,16 @@
 <svelte:head>
     <link rel="icon" href={favicon} />
     <meta name="color-scheme" content="light dark" />
+    <!-- preload fonts -->
+    {#each [atkinsonHyperlegible, firaCode] as fontLink}
+        <link
+            rel="preload"
+            as="font"
+            type="font/woff2"
+            href={fontLink}
+            crossorigin="anonymous"
+        />
+    {/each}
     <link
         rel="alternate"
         type="application/rss+xml"
