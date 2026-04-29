@@ -1,8 +1,11 @@
 <script lang="ts">
-    import type { PostLink } from "./allPosts";
-
-    let { posts }: { posts: PostLink[] } = $props();
+    import { getAllPosts } from "$lib/allPosts";
+    import type { PageProps } from "./$types";
+    let { data }: PageProps = $props();
+    let { posts } = $derived(data);
 </script>
+
+<h1>Posts</h1>
 
 <ul>
     {#each posts as { metadata: { title, description, date }, postPath }}
