@@ -23,13 +23,13 @@ I spent no more than 15 minutes styling the site, with minimal changes to your b
 The two fonts used are [Atkinson Hyperlegible Next](https://github.com/googlefonts/atkinson-hyperlegible-next) and [Fira Code](https://github.com/tonsky/FiraCode). Both are bundled into the static build of the site to ensure that this site
 exclusively pings the Github Pages site.
 
-The one bit of custom styling is the syntax highlighting for code snippets. The code snippets are colored using [Shiki](https://shiki.style/) along with my TextMate color theme called [Forest Cottage](https://github.com/zphrs/forest-cottage-theme) (I initially wrote and published Forest Cottage for a [VS Code color theme](https://marketplace.visualstudio.com/items?itemName=zephyrj.forest-cottage) more than 4 years ago in 2022). Forest Cottage also available in [Zed](https://zed.dev/)'s extension marketplace under the same name (extension id of forest-cottage-theme).
+The one bit of custom styling is the syntax highlighting for code snippets. The code snippets are colored using [Shiki](https://shiki.style/) along with my TextMate color theme called [Forest Cottage](https://github.com/zphrs/forest-cottage-theme) (I initially wrote and published Forest Cottage for a [VS Code color theme](https://marketplace.visualstudio.com/items?itemName=zephyrj.forest-cottage) more than 4 years ago in 2022). Forest Cottage is also available in [Zed](https://zed.dev/)'s extension marketplace under the same name (extension id of forest-cottage-theme).
 
 Most of the site is written in commonmark Markdown, although I will occasionally write tiny applets in Svelte if it helps illustrate a point. When there's an interactive element I'll do my best to provide some indication to those who exclusively read through RSS to open the full site. The rest of the time the only thing RSS readers are missing out on is pretty syntax highlighting for the code blocks.
 
 
 ## Source Code and Licensing
 
-The source is available on [GitHub](https://github.com/zphrs/zephiris.dev.git) and the site itself is statically hosted through GitHub pages. While the source is available, there is no license and thus I retain copyright over all content on this site. If you want to use something I wrote in this repo for a purpose which is not otherwise protected under fair use, please reach out for permission! 
+The source is available on [GitHub](https://github.com/zphrs/zephiris.dev.git) and the site itself is statically hosted through GitHub pages. While the source is available, there is no license and thus I retain copyright over all content on this site. If you want to use something I wrote in this repo for a purpose which is not otherwise protected under fair use, please reach out for permission!
 
 Sometimes I'll specify a license for specific code snippets on the site. In that case you're welcome to use such snippets under the license I've specified.
