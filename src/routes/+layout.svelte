@@ -64,7 +64,7 @@
         min-height: 100dvh;
         max-width: 800px;
         margin: auto;
-        padding: 1rem;
+        padding: 1rem 0.5rem;
         padding-top: 0rem;
     }
     header {

@@ -58,7 +58,7 @@ guard data == 0 else {
 print("data is 0")
 ```
 
-For those unfamiliar, it's semantically similar to an `if !condition {...}` but the compiler ensures that the block diverges (returns, breaks, throws an exception, etc). For example, deleting the `return` within the `else` block in the above snippet would make the Swift compiler would raise a compiler error. 
+For those unfamiliar, it's semantically similar to an `if !condition {...}` but the compiler ensures that the block diverges (returns, breaks, throws an exception, etc). For example, deleting the `return` within the `else` block in the above snippet would make the Swift compiler would raise a compiler error.
 
 A guard assures the reader that a condition is guaranteed to be met once past the guard statement while still allowing for arbitrary handling within the `else` block in the case the condition is not met, as long as that handling eventually diverges. So, swift guard blocks are essentially an assert with customizable logic for what to do if/when the assert fails.
 
@@ -86,7 +86,7 @@ let 0 = data else {
 println!("data is 0");
 ```
 
-Believe it or not, this code compiles, even though it looks like I'm setting `0` to equal `data`. But seen another way, it's assigning `0` to equal `data` only if `data` already equals `0` (which would obviously be a no-op). 
+Believe it or not, this code compiles, even though it looks like I'm setting `0` to equal `data`. But seen another way, it's assigning `0` to equal `data` only if `data` already equals `0` (which would obviously be a no-op).
 
 What the above code is doing is even clearer when we desugar the `let-else` syntax to the more intuitive `match` syntax:
 
@@ -162,7 +162,7 @@ for i in 1..=100 {
 }
 ```
 
-While I do concede that [richr's macro definition code](https://internals.rust-lang.org/t/swift-like-guard-statement/21646/7) is significantly easier to read, I think added complexity in the definition is worth clearer syntax when using the macro. 
+While I do concede that [richr's macro definition code](https://internals.rust-lang.org/t/swift-like-guard-statement/21646/7) is significantly easier to read, I think added complexity in the definition is worth clearer syntax when using the macro.
 
 ## Please Feel free to copy and paste my macro!
 
