@@ -1,13 +1,13 @@
-import type { LayoutLoad } from "./$types";
+import type { PageLoad } from "./$types";
+import type { BlogPostMetadata } from "$lib/allPosts";
 
-export const load: LayoutLoad = async ({ params }) => {
+export const load: PageLoad = async ({ params }) => {
   const post = await import(`../${params.slug}.svx`);
-  const { title, date } = post.metadata;
+  const metadata: BlogPostMetadata = post.metadata;
   const content = post.default;
 
   return {
+    ...metadata,
     content,
-    title,
-    date,
   };
 };
