@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><atom:link rel="self" href="https://zephiris.dev/feed.xml" type="application/rss+xml"/><title>Zephiris.dev</title><link href="https://zephiris.dev/"/><updated>2026-04-29T05:07:57.307Z</updated><id>https://zephiris.dev/</id><author><name>Zephiris Evergreen</name><email>z@zephiris.dev</email></author><subtitle>focused primarily on distributed systems, networking, and rust at the moment</subtitle><entry><title>Swift's Guard Syntax in Rust</title><link href="https://zephiris.dev//posts/2026-04-28-swift-guard-in-rust"/><updated>2026-04-28T12:00:00.000Z</updated><id>https://zephiris.dev//posts/2026-04-28-swift-guard-in-rust</id><content type="html">
-&lt;h1&gt;Swift's Guard Syntax in Rust&lt;/h1&gt;&amp;#x3C;details&gt;
-&amp;#x3C;summary&gt;TLDR&amp;#x3C;/summary&gt;
+<?xml version="1.0" encoding="utf-8"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><atom:link rel="self" href="https://zephiris.dev/feed.xml" type="application/rss+xml"/><title>Zephiris.dev</title><link href="https://zephiris.dev/"/><updated>2026-04-29T05:13:40.827Z</updated><id>https://zephiris.dev/</id><author><name>Zephiris Evergreen</name><email>z@zephiris.dev</email></author><subtitle>focused primarily on distributed systems, networking, and rust at the moment</subtitle><entry><title>Swift's Guard Syntax in Rust</title><link href="https://zephiris.dev//posts/2026-04-28-swift-guard-in-rust"/><updated>2026-04-28T12:00:00.000Z</updated><id>https://zephiris.dev//posts/2026-04-28-swift-guard-in-rust</id><content type="html">
+&lt;h1&gt;Swift's Guard Syntax in Rust&lt;/h1&gt;&lt;details&gt;
+&lt;summary&gt;TLDR&lt;/summary&gt;
 The following Rust macro lets you write Swift-style guard statements in Rust:
 &lt;pre&gt;&lt;code class="language-rust"&gt;macro_rules! guard {
     (@parse ($($cond:tt)*) else $block:block) =&gt; {
@@ -27,7 +27,7 @@ print("data is 0")
     return
 });
 println!("data is 0");
-&lt;/code&gt;&lt;/pre&gt;&amp;#x3C;/details&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/details&gt;
 &lt;p&gt;Today &lt;a href="https://eleanorkolson.com"&gt;my girlfriend&lt;/a&gt; told me about Swift's &lt;code&gt;guard&lt;/code&gt; syntax. Here's an example snippet:&lt;/p&gt;
 &lt;pre&gt;&lt;code class="language-swift"&gt;guard data == 0 else {
     print("data is not 0 :(")
