@@ -14,11 +14,11 @@ export type PostLink = {
 
 export async function getAllPosts(): Promise<PostLink[]> {
   const pathPrefix = "../routes/posts/";
-  const allPostFiles = import.meta.glob("../routes/posts/*/+page.svx");
+  const allPostFiles = import.meta.glob("../routes/posts/*.svx");
   const iterablePostFiles = Object.entries(allPostFiles);
   const postJobs = iterablePostFiles.map(async ([path, resolver]) => {
     const { metadata } = (await resolver()) as { metadata: BlogPostMetadata };
-    const postPath = path.replace(pathPrefix, "").replace("/+page.svx", "");
+    const postPath = path.replace(pathPrefix, "").replace(".svx", "");
     return { metadata, postPath };
   });
   const posts = await Promise.all(postJobs);

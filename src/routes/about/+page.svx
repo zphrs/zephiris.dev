@@ -1,3 +1,7 @@
+<svelte:head>
+    <title>About | Zephiris.dev</title>
+</svelte:head>
+
 # About
 
 This is my developer blog specifically targeted towards a technical audience. If you want to get to know the human behind the code monkey then you can visit my personal site, [zephiris.me](https://zephiris.me), to learn more about me, the other non-programming stuff that I get up to, and peruse my ongoing and finished projects in a more widely accessible manner.

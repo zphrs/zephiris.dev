@@ -36,7 +36,7 @@ const processor = unified()
 
 async function getHtmlForPost(postPath: string): Promise<string> {
   /* @vite-ignore */
-  let text = await import(`../posts/${postPath}/+page.svx?raw`).then(
+  let text = await import(`../posts/${postPath}.svx?raw`).then(
     (m) => m.default,
   );
   const file = await processor.process(text);

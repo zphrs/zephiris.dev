@@ -56,12 +56,14 @@
 
 <style>
     footer {
-        background-color: rgba(0, 0, 0, 0.2);
+        background-color: rgba(127, 127, 127, 0.1);
         padding: 1rem;
-        color: rgb(127, 127, 127);
+        color: color-mix(in oklch, currentColor 50%, rgb(127, 127, 127) 50%);
+        filter: opacity(0.8);
     }
+
     main {
-        min-height: 100dvh;
+        min-height: 100lvh;
         max-width: 800px;
         margin: auto;
         padding: 1rem 0.5rem;
@@ -69,7 +71,11 @@
     }
     header {
         text-align: left;
-        background-color: rgba(0, 0, 0, 0.2);
+        padding: 0.25rem;
+        border-bottom: 1px solid
+            color-mix(in oklch, currentColor 25%, rgb(127, 127, 127) 75%);
+
+        /*background-color: rgba(127, 127, 127, 0.2);*/
     }
     fieldset {
         border-radius: 0.5rem;
@@ -79,9 +85,11 @@
         outline: none;
     }
     header > a {
-        padding: 0 1rem;
+        display: inline-block;
+        padding: 0.25rem 0.5rem;
     }
-    ul {
-        color: gray;
+    header > a:hover {
+        background-color: rgba(127, 127, 127, 0.25);
+        border-radius: 0.5rem;
     }
 </style>

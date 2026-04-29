@@ -1,11 +1,9 @@
 ---
 date: 2026-04-28T05:00:00-07:00
-title: "Swift's Guard Syntax in Rust"
-description: "Recreating Swift's guard pattern in rust"
+title: Swift's Guard Syntax in Rust
+description: "Recreating Swift's guard pattern in Rust"
 keywords: swift, rust, macros, let-else, guard
 ---
-
-# Swift's Guard Syntax in Rust
 
 <details>
 <summary>TLDR</summary>

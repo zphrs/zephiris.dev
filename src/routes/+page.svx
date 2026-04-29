@@ -8,6 +8,10 @@
     let { posts } = $derived(data);
 </script>
 
+<svelte:head>
+    <title>Zephiris.dev</title>
+</svelte:head>
+
 
 ```rust
 let welcome_msg = "\\u{0057}\\u{0065}\\u{006c}\\u{0063}\\u{006f}\\u{006d}\\u{0065}\\u{0020}\\u{0074}\\u{006f}\\u{0020}\\u{006d}\\u{0079}\\u{0020}\\u{0064}\\u{0065}\\u{0076}\\u{0065}\\u{006c}\\u{006f}\\u{0070}\\u{0065}\\u{0072}\\u{0020}\\u{0062}\\u{006c}\\u{006f}\\u{0067}\\u{0021}\\u{000a}";

@@ -4,12 +4,21 @@ body {
 
 h1 {
     font-weight: 700;
+    line-height: 1.125;
+    margin: 1rem 0;
+}
+h2 {
+    line-height: 1.25;
+}
+h2 {
+    line-height: 1.33;
 }
 p {
     margin-bottom: 1rem;
     margin-top: 0.5rem;
     margin-left: 1rem;
     margin-right: 0.5rem;
+    line-height: 1.5;
 }
 
 details {
