@@ -21,6 +21,13 @@ p {
     line-height: 1.5;
 }
 
+a {
+    color: #645cee;
+}
+a:visited {
+    color: #2d27a4;
+}
+
 details {
     padding-left: 0.5rem;
     border-left: 2px solid currentColor;
