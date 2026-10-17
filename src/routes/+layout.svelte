@@ -76,6 +76,14 @@
         filter: opacity(0.8);
     }
 
+    fieldset {
+        border-radius: 0.5rem;
+        border-width: 1px;
+        border-color: currentColor;
+        border-style: solid;
+        outline: none;
+    }
+
     main {
         min-height: 100lvh;
         max-width: 800px;
@@ -90,13 +98,6 @@
             color-mix(in oklch, currentColor 25%, rgb(127, 127, 127) 75%);
 
         /*background-color: rgba(127, 127, 127, 0.2);*/
-    }
-    fieldset {
-        border-radius: 0.5rem;
-        border-width: 1px;
-        border-color: currentColor;
-        border-style: solid;
-        outline: none;
     }
     header > a {
         display: inline-block;

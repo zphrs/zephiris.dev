@@ -1,4 +1,7 @@
 import { mdsvex } from "mdsvex";
+import relativeImages from "mdsvex-relative-images";
+import footnotes from "remark-footnotes";
+import slug from "rehype-slug";
 import adapter from "@sveltejs/adapter-static";
 // import { createHighlighter } from "@bitmachina/highlighter";
 import { createHighlighter } from "shiki";
@@ -33,6 +36,8 @@ const config = {
   preprocess: [
     mdsvex({
       extensions: [".svx", ".md"],
+      remarkPlugins: [relativeImages, footnotes],
+      rehypePlugins: [slug],
       // mdsvex.config.js
       highlight: {
         highlighter: (code, lang) => {
